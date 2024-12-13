@@ -6,6 +6,9 @@ class Column:
     __type: EValueType
 
     def __init__(self, name: str, col_type: EValueType):
+        if name == "id":
+            raise Exception(f"You cannot create a field with the name \"id\"")
+
         self.__name = name
         self.__type = col_type
 

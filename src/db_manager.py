@@ -1,18 +1,73 @@
+import os
+
+from src import Table, EValueType
+
+
 class DBManager:
-    path_to_db: str
+    __path_to_db: str
     __db_name: str
+    __db_tables: dict[str, str]
 
     def __init__(self, path_to_db):
-        pass
+        self.__path_to_db = path_to_db
+        self.__db_tables = {}
 
-    def delete_table(self):
-        pass
+        with open(path_to_db, "r") as file:
+            for index, line in enumerate(file):
+                if index == 0:
+                    self.__db_name = line.split("$")[1].rstrip("\n")
+                else:
+                    self.__db_tables[line.split("$")[0].rstrip("\n")] = line.split("$")[1].rstrip("\n")
 
-    def get_list(self, table_name: str):
-        pass
+    @property
+    def name(self):
+        return self.__db_name
 
-    def get_item(self, table_name: str, item_id: str):
-        pass
+    def add_tables(self, tables: list[Table]):
+        table_path = self.__path_to_db.rsplit("/", 1)[0] + "/"
+
+        if any(table.name in self.__db_tables for table in tables):
+            raise Exception("A table with that name already exists")
+
+        for table in tables:
+            with open(table_path + table.name, "w") as file:
+                file.write(f"id${EValueType.INT.value}, ")
+
+                for index, row in enumerate(table.columns):
+                    file.write(f"{row.name}${row.type}")
+
+                    if index == (len(table.columns) - 1):
+                        file.write("\n")
+                    else:
+                        file.write(", ")
+
+            with open(self.__path_to_db, "a") as file:
+                file.write(f"{table.name}${table_path + table.name}\n")
+                self.__db_tables[table.name] = table_path + table.name
+
+    def delete_table(self, name: str):
+        self.__is_table_exist(name)
+
+        os.remove(self.__db_tables.get(name))
+        self.__db_tables.pop(name)
+
+    def get_table_names(self) -> list[str]:
+        table_names: list[str] = []
+        for name in self.__db_tables:
+            table_names.append(name)
+
+        return table_names
+
+    def get_table_row_names(self, name: str) -> list[str]:
+        self.__is_table_exist(name)
+
+        table_path = self.__path_to_db.rsplit("/", 1)[0] + "/"
+
+        table_rows: str
+        with open(table_path + name, "r") as file:
+            table_rows = file.readline().rstrip("\n")
+
+        return [item.replace('$', ':') for item in table_rows.split(', ')]
 
     def add_item(self, table_name: str, data: dict):
         pass
@@ -22,3 +77,13 @@ class DBManager:
 
     def delete_item(self, table_name: str, item_id: str):
         pass
+
+    def get_item_list(self, table_name: str):
+        pass
+
+    def get_item(self, table_name: str, row: str, value: str):
+        pass
+
+    def __is_table_exist(self, name: str):
+        if self.__db_tables.get(name) is None:
+            raise Exception("A table with that name does not exist")
