@@ -1,7 +1,8 @@
 from enum import Enum
 
 class EValueType(Enum):
-    STRING = "STRING"
-    INT = "INT"
-    FLOAT = "FLOAT"
-    LINK = "LINK"
+    STRING = "str"
+    INT = "int"
+    FLOAT = "float"
+    LINK = "link"
+    UNKNOWN = "unknown"

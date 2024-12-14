@@ -1,22 +1,36 @@
-from src import DBCreator, DBManager, Table, Column, EValueType
+from src import EValueType, DBCreator, DBManager, Column, Table, Link, RowData
 
-DBCreator.create_db("Library", "C:/Users/nenro/PycharmProjects/SamolukDB/")
+DBCreator.create_db("library", "C:/Users/nenro/PycharmProjects/SamolukDB/")
 
 db = DBManager("C:/Users/nenro/PycharmProjects/SamolukDB/Library")
 print("DB name: ", db.name)
 
-
 db.add_tables([
-    Table("Books", [
+    Table("books", [
         Column("name", EValueType.STRING),
         Column("author", EValueType.STRING),
         Column("pages", EValueType.INT)
     ]),
-    Table("Workers", [
+    Table("workers", [
         Column("name", EValueType.STRING),
-        Column("post", EValueType.STRING)
+        Column("post", EValueType.STRING),
+        Column("link", EValueType.LINK),
     ]),
 ])
 
+
 print("Tables: ", db.get_table_names())
-print("Rows of Workers: ", db.get_table_row_names("Books"))
+print("Rows of Workers names: ", db.get_table_row_names("books"))
+print("Rows of Workers types: ", db.get_table_row_types("books"))
+
+print("Rows of Workers names: ", db.get_table_row_names("workers"))
+print("Rows of Workers types: ", db.get_table_row_types("workers"))
+
+db.add_item("workers", RowData("Andrey", "Director", Link("books", 1)) )
+db.add_item("workers", RowData("Kirill", "Director", Link("books", 2)) )
+db.add_item("workers", RowData("Artem", "Director", Link("books", 3)) )
+db.add_item("workers", RowData("Dima", "Director", Link("books", 4)) )
+
+db.get_item_list("workers")
+
+DBCreator.delete_db("C:/Users/nenro/PycharmProjects/SamolukDB/Library")

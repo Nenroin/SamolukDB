@@ -1,4 +1,5 @@
-from src import Column
+from src.entities.column import Column
+from src import validate_db_fields
 
 
 class Table:
@@ -6,6 +7,8 @@ class Table:
     __columns: list[Column]
 
     def __init__(self, name: str, cols: list[Column]):
+        validate_db_fields(name)
+
         self.__name = name
         self.__columns = cols
 
