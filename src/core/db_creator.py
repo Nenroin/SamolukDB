@@ -24,4 +24,6 @@ class DBCreator:
         for db_table in db_tables:
             db.delete_table(db_table)
 
+        del db
+
         os.remove(path_to_db)

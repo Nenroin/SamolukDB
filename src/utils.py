@@ -1,6 +1,7 @@
 import re
 from src.evaluetype import EValueType
 
+
 def validate_db_fields(name: str, pattern: str = r'^[a-z0-9_]+$'):
     if not re.match(pattern, name):
         raise Exception("An invalid character has been entered, available set [a-z0-9_]")
@@ -24,3 +25,20 @@ def convert_to_e_value_type(value) -> EValueType:
         return EValueType.LINK
     else:
         return EValueType.UNKNOWN
+
+
+def convert_to(value: str, eval_type: EValueType) -> any:
+    from src.entities.link import Link
+
+    match eval_type:
+        case EValueType.INT:
+            return int(value)
+        case EValueType.FLOAT:
+            return float(value)
+        case EValueType.STRING:
+            return str(value)
+        case EValueType.LINK:
+            split_value: list[str] = value.split(',')
+            return Link(str(split_value[0]), int(split_value[1]))
+        case _:
+            raise Exception("Unknown value type")

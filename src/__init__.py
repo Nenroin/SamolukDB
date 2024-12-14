@@ -1,5 +1,5 @@
 from src.evaluetype import EValueType
-from src.utils import validate_db_fields, validate_row_data, convert_to_e_value_type
+from src.utils import validate_db_fields, validate_row_data, convert_to_e_value_type, convert_to
 from src.entities.link import Link
 from src.entities.table import Table
 from src.entities.column import Column
