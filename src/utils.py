@@ -39,6 +39,6 @@ def convert_to(value: str, eval_type: EValueType) -> any:
             return str(value)
         case EValueType.LINK:
             split_value: list[str] = value.split(',')
-            return Link(str(split_value[0]), int(split_value[1]))
+            return Link(str(split_value[0]), int(split_value[1]), str(split_value[2]))
         case _:
             raise Exception("Unknown value type")
