@@ -26,7 +26,7 @@ class Link:
         return self.__col_name
 
     def __str__(self):
-        return f"({self.table_name}, {self.row_id}, {self.col_name})"
+        return f"{self.table_name}, {self.row_id}, {self.col_name}"
 
     def __repr__(self):
         return f"Link({self.table_name}, {self.row_id}, {self.col_name})"

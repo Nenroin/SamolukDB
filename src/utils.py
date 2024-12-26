@@ -7,9 +7,9 @@ def validate_db_fields(name: str, pattern: str = r'^[a-z0-9_]+$'):
         raise Exception("An invalid character has been entered, available set [a-z0-9_]")
 
 
-def validate_row_data(name: str, pattern: str = r'^[a-zA-Z0-9_!?,.@#%^&*()\-=+~]+$'):
+def validate_row_data(name: str, pattern: str = r'^[a-zA-Zа-яА-ЯёЁ0-9_ :!?,.@#%^&*()\/\-+=\~]+$'):
     if not re.match(pattern, name):
-        raise Exception("An invalid character has been entered, available set [a-z0-9_]")
+        raise Exception("An invalid character has been entered, available set [a-zA-Zа-яА-Я0-9_!?,.@#%\^&*()\/\-+=\~]")
 
 
 def convert_to_e_value_type(value) -> EValueType:
