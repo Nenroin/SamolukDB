@@ -36,26 +36,25 @@ def main():
 def print_db_info():
     db = EncryptedDB(DBManager())
 
-    """
     print(db.get_table_names())
     for table_name in db.get_table_names():
         print(table_name)
         print(db.get_table_row_names(table_name))
         print(db.get_table_row_types(table_name))
-    """
-    """
+
+
     db.add_item("workers", RowData(["Огурцова Анна Михайловна", "библиотекарь"]))
     db.add_item("workers", RowData(["Иванова Мария Ивановна", "старший библиотекарь"]))
     db.add_item("readers", RowData(["Марзан Андрей Николаевич", 20]))
     db.add_item("readers", RowData(["Марзан Андрей Николаевич", 21]))
     db.add_item("readers", RowData(["Ничингер Кирилл Александрович", 20]))
     db.add_item("books", RowData(["Преступление и наказание", "Федор Михайлович Достоевский", 687, 0]))
-    db.add_item("books", RowData(["Война и мир", "Лев Николаевич Толстой", 2897, 0]))
-    db.add_item("check_list", RowData([datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 0,
+    db.add_item("books", RowData(["Война и мир", "Лев Николаевич Толстой", 2897, 1]))
+    db.add_item("check_list", RowData([datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 1,
                          Link("readers", 1, "name"),
                          Link("workers", 1, "name"),
                          Link("books", 2, "name")]))
-    """
+
     for table_name in db.get_table_names():
         print(table_name)
         for i in db.get_item_list(table_name):
@@ -63,5 +62,5 @@ def print_db_info():
 
 
 if __name__ == "__main__":
-    #main()
+    main()
     print_db_info()

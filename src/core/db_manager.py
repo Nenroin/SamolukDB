@@ -347,3 +347,6 @@ class DBManager(DBControllerBase):
         self.__db_tables = {}
         self.__db_open_files = {}
         self.__db_table_max_ids = {}
+
+    def __del__(self):
+        self.__connection_pool.close_all_connections()

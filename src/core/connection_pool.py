@@ -13,13 +13,16 @@ class ConnectionPool:
     @staticmethod
     def close_connection(file_name: str):
         ConnectionPool.__db_open_files[file_name].close()
-
+        ConnectionPool.__db_open_files.pop(file_name)
+    
     @staticmethod
     def get_connection(file_name: str) -> TextIO:
+        ConnectionPool.__check()
         return ConnectionPool.__db_open_files[file_name]
 
     @staticmethod
     def set_connection(file_name: str, connection: TextIO) -> None:
+        ConnectionPool.__check()
         if file_name not in ConnectionPool.__db_open_files:
             ConnectionPool.__db_open_files[file_name] = connection
         else:
@@ -28,6 +31,7 @@ class ConnectionPool:
 
     @staticmethod
     def get_path_to_db() -> str:
+        ConnectionPool.__check()
         return ConnectionPool.__path_to_db
 
     @staticmethod
@@ -35,6 +39,8 @@ class ConnectionPool:
         for file in ConnectionPool.__db_open_files.values():
             if not file.closed:
                 file.close()
+
+        ConnectionPool.__db_open_files.clear()
 
     @staticmethod
     def __check():
@@ -44,3 +50,6 @@ class ConnectionPool:
                     ConnectionPool.__path_to_db.rsplit("/", 1)[1]: open(ConnectionPool.__path_to_db, "r+", encoding="utf-8")}
         else:
             ConnectionPool.__db_open_files = {}
+
+    def __del__(self):
+        self.close_all_connections()

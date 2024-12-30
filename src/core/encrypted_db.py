@@ -221,3 +221,6 @@ class EncryptedDB(DBControllerBase):
 
         if os.path.exists(self.__path_to_encrypted_db):
             os.remove(self.__path_to_encrypted_db)
+
+    def __del__(self):
+        self.__connection_pool.close_all_connections()
