@@ -46,7 +46,7 @@ def print_db_info():
     db.add_item("workers", RowData(["Огурцова Анна Михайловна", "библиотекарь"]))
     db.add_item("workers", RowData(["Иванова Мария Ивановна", "старший библиотекарь"]))
     db.add_item("readers", RowData(["Марзан Андрей Николаевич", 20]))
-    db.add_item("readers", RowData(["Марзан Андрей Николаевич", 21]))
+    db.add_item("readers", RowData(["Кухарев Дмитрий Николаевич", 21]))
     db.add_item("readers", RowData(["Ничингер Кирилл Александрович", 20]))
     db.add_item("books", RowData(["Преступление и наказание", "Федор Михайлович Достоевский", 687, 0]))
     db.add_item("books", RowData(["Война и мир", "Лев Николаевич Толстой", 2897, 1]))
